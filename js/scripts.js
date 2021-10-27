@@ -1,13 +1,18 @@
 // Utility Logic
 
-function noInputtedWord(word, text) {
-  return ((text.trim().length === 0) || (word.trim().length === 0));
+function noInputtedWord() {
+  for (let i=0; i < arguments.length; i++) {
+    if (arguments[i].trim().length === 0) {
+      return true;
+    }
+  }
+  return false;
 }
 
 // Business Logic
 
 function wordCounter(text) {
-  if (text.trim().length === 0) {
+  if (noInputtedWord(text)) {
     return 0;
   }
   let wordCount = 0;
@@ -32,6 +37,19 @@ function numberOfOccurrencesInText(word, text) {
     }
   });
   return wordCount;
+}
+
+function ommitOffensiveWords(text){
+  if (text.trim().length === 0) {
+    return 0;
+  }
+  const wordArray = text.split(" ");
+  wordArray.forEach(function(element, index){
+    if(element.toLowerCase() === "zoinks" || element.toLowerCase() === "muppeteer" || element.toLowerCase() === "biffaroni" || element.toLowerCase() === "loopdaloop") {
+      wordArray[index] = "****";
+    }
+  });
+  return wordArray.join(" ");
 }
 
 // UI Logic
@@ -62,8 +80,9 @@ $(document).ready(function(){
     const word = $("#word").val();
     const wordCount = wordCounter(passage);
     const occurrencesOfWord = numberOfOccurrencesInText(word, passage);
+    const ommittedPassage = ommitOffensiveWords(passage);
     $("#total-count").html(wordCount);
     $("#selected-count").html(occurrencesOfWord);
-    $("#bolded-passage").html(boldPassage(word, passage));
+    $("#bolded-passage").html(boldPassage(word, ommittedPassage));
   });
 });

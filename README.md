@@ -91,3 +91,6 @@ const text = "hello";
 boldPassage(word, text);
 Expected Output: "<p><b>hello</b></p>"
 
+Describe: partialBold()
+
+Test: 
